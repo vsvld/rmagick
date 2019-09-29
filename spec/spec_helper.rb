@@ -1,3 +1,9 @@
+$stderr = Module.new do
+  def self.write(message)
+    raise message
+  end
+end
+
 require 'pry'
 require 'rmagick'
 
