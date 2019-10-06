@@ -341,6 +341,7 @@ class LibDrawUT < Minitest::Test
   end
 
   def test_image
+    @img.define('compose:args', '1x1')
     Magick::CompositeOperator.values do |composite|
       next if [Magick::CopyAlphaCompositeOp, Magick::NoCompositeOp].include?(composite)
 

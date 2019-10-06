@@ -56,6 +56,8 @@ class ImageList1UT < Minitest::Test
   end
 
   def test_composite_layers
+    @list.each { |img| img.define('compose:args', '1x1') }
+    # @list2.define('compose:args', '1x1')
     assert_nothing_raised { @list.composite_layers(@list2) }
     Magick::CompositeOperator.values do |op|
       assert_nothing_raised { @list.composite_layers(@list2, op) }
