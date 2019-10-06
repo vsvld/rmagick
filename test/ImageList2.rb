@@ -249,8 +249,10 @@ class ImageList2UT < Minitest::Test
 
   def test_optimize_layers
     @ilist.read(IMAGES_DIR + '/Button_0.gif', IMAGES_DIR + '/Button_1.gif')
+    skip = [Magick::UndefinedLayer, Magick::CompositeLayer, Magick::TrimBoundsLayer, Magick::RemoveZeroLayer]
+    skip.concat([Magick::CompareClearLayer]) if Gem::Version.new(Magick::IMAGEMAGICK_VERSION) < Gem::Version.new('6.9.10')
     Magick::LayerMethod.values do |method|
-      next if [Magick::UndefinedLayer, Magick::CompositeLayer, Magick::TrimBoundsLayer, Magick::RemoveZeroLayer].include?(method)
+      next if skip.include?(method)
 
       assert_nothing_raised do
         res = @ilist.optimize_layers(method)
@@ -259,7 +261,6 @@ class ImageList2UT < Minitest::Test
       end
     end
 
-    assert_nothing_raised { @ilist.optimize_layers(Magick::CompareClearLayer) }
     expect { @ilist.optimize_layers(Magick::UndefinedLayer) }.to raise_error(ArgumentError)
     expect { @ilist.optimize_layers(2) }.to raise_error(TypeError)
     expect { @ilist.optimize_layers(Magick::CompositeLayer) }.to raise_error(NotImplementedError)
