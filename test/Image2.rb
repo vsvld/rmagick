@@ -126,10 +126,14 @@ class Image2_UT < Minitest::Test
   end
 
   def test_compress_colormap!
+    assert_equal(Magick::DirectClass, @img.class_type)
     # DirectClass images are converted to PseudoClass in older versions of ImageMagick.
-    expect(@img.class_type).to eq(Magick::DirectClass)
-    assert_nothing_raised { @img.compress_colormap! }
-    # expect(@img.class_type).to eq(Magick::PseudoClass)
+    if Gem::Version.new(Magick::IMAGEMAGICK_VERSION) < Gem::Version.new('6.9.10')
+      assert_nothing_raised { @img.compress_colormap! }
+      expect(@img.class_type).to eq(Magick::PseudoClass)
+    else
+      expect { @img.compress_colormap! }.to raise_error(RuntimeError)
+    end
     @img = Magick::Image.read(IMAGES_DIR + '/Button_0.gif').first
     expect(@img.class_type).to eq(Magick::PseudoClass)
     assert_nothing_raised { @img.compress_colormap! }
