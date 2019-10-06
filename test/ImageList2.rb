@@ -250,7 +250,7 @@ class ImageList2UT < Minitest::Test
   def test_optimize_layers
     @ilist.read(IMAGES_DIR + '/Button_0.gif', IMAGES_DIR + '/Button_1.gif')
     Magick::LayerMethod.values do |method|
-      next if [Magick::UndefinedLayer, Magick::CompositeLayer, Magick::TrimBoundsLayer].include?(method)
+      next if [Magick::UndefinedLayer, Magick::CompositeLayer, Magick::TrimBoundsLayer, Magick::RemoveZeroLayer].include?(method)
 
       assert_nothing_raised do
         res = @ilist.optimize_layers(method)
