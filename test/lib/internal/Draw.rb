@@ -342,8 +342,10 @@ class LibDrawUT < Minitest::Test
 
   def test_image
     @img.define('compose:args', '1x1')
+    skip = [Magick::CopyAlphaCompositeOp, Magick::NoCompositeOp]
+    skip.push(Magick::BlurCompositeOp) if Gem::Version.new(Magick::IMAGEMAGICK_VERSION) < Gem::Version.new('6.9.10')
     Magick::CompositeOperator.values do |composite|
-      next if [Magick::CopyAlphaCompositeOp, Magick::NoCompositeOp].include?(composite)
+      next if skip.include?(composite)
 
       draw = Magick::Draw.new
       draw.image(composite, 10, 10, 200, 100, "#{IMAGES_DIR}/Flower_Hat.jpg")
