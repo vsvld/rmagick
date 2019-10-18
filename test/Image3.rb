@@ -11,7 +11,7 @@ class Image3_UT < Minitest::Test
   def test_profile!
     expect do
       res = @img.profile!('*', nil)
-      assert_same(@img, res)
+      expect(res).to be(@img)
     end.not_to raise_error
     expect { @img.profile!('icc', @p) }.not_to raise_error
     expect { @img.profile!('iptc', 'xxx') }.not_to raise_error
@@ -176,7 +176,7 @@ class Image3_UT < Minitest::Test
   def test_resample!
     expect do
       res = @img.resample!(50)
-      assert_same(@img, res)
+      expect(res).to be(@img)
     end.not_to raise_error
     @img.freeze
     expect { @img.resample!(50) }.to raise_error(FreezeError)
@@ -207,7 +207,7 @@ class Image3_UT < Minitest::Test
   def test_resize!
     expect do
       res = @img.resize!(2)
-      assert_same(@img, res)
+      expect(res).to be(@img)
     end.not_to raise_error
     @img.freeze
     expect { @img.resize!(0.50) }.to raise_error(FreezeError)
@@ -298,7 +298,7 @@ class Image3_UT < Minitest::Test
     keep = img
     img.resize_to_fit!(100)
     expect(img).to be_instance_of(Magick::Image)
-    assert_same(img, keep)
+    expect(keep).to be(img)
     expect(img.columns).to eq(67)
     expect(img.rows).to eq(100)
   end
@@ -335,7 +335,7 @@ class Image3_UT < Minitest::Test
   def test_rotate!
     expect do
       res = @img.rotate!(45)
-      assert_same(@img, res)
+      expect(res).to be(@img)
     end.not_to raise_error
     @img.freeze
     expect { @img.rotate!(45) }.to raise_error(FreezeError)
@@ -359,7 +359,7 @@ class Image3_UT < Minitest::Test
   def test_sample!
     expect do
       res = @img.sample!(2)
-      assert_same(@img, res)
+      expect(res).to be(@img)
     end.not_to raise_error
     @img.freeze
     expect { @img.sample!(0.50) }.to raise_error(FreezeError)
@@ -380,7 +380,7 @@ class Image3_UT < Minitest::Test
   def test_scale!
     expect do
       res = @img.scale!(2)
-      assert_same(@img, res)
+      expect(res).to be(@img)
     end.not_to raise_error
     @img.freeze
     expect { @img.scale!(0.50) }.to raise_error(FreezeError)
@@ -518,7 +518,7 @@ class Image3_UT < Minitest::Test
     end.not_to raise_error
     expect do
       res = @img.shave!(5, 5)
-      assert_same(@img, res)
+      expect(res).to be(@img)
     end.not_to raise_error
     @img.freeze
     expect { @img.shave!(2, 2) }.to raise_error(FreezeError)
@@ -661,7 +661,7 @@ class Image3_UT < Minitest::Test
     pixels = @img.get_pixels(0, 0, @img.columns, 1)
     expect do
       res = @img.store_pixels(0, 0, @img.columns, 1, pixels)
-      assert_same(@img, res)
+      expect(res).to be(@img)
     end.not_to raise_error
 
     pixels[0] = 'x'
@@ -676,7 +676,7 @@ class Image3_UT < Minitest::Test
   def test_strip!
     expect do
       res = @img.strip!
-      assert_same(@img, res)
+      expect(res).to be(@img)
     end.not_to raise_error
   end
 
@@ -749,7 +749,7 @@ class Image3_UT < Minitest::Test
   def test_thumbnail!
     expect do
       res = @img.thumbnail!(2)
-      assert_same(@img, res)
+      expect(res).to be(@img)
     end.not_to raise_error
     @img.freeze
     expect { @img.thumbnail!(0.50) }.to raise_error(FreezeError)
@@ -832,7 +832,7 @@ class Image3_UT < Minitest::Test
     expect do
       res = @img.transpose!
       expect(res).to be_instance_of(Magick::Image)
-      assert_same(@img, res)
+      expect(res).to be(@img)
     end.not_to raise_error
   end
 
@@ -845,7 +845,7 @@ class Image3_UT < Minitest::Test
     expect do
       res = @img.transverse!
       expect(res).to be_instance_of(Magick::Image)
-      assert_same(@img, res)
+      expect(res).to be(@img)
     end.not_to raise_error
   end
 
@@ -860,10 +860,10 @@ class Image3_UT < Minitest::Test
 
     expect do
       res = hat.trim!
-      assert_same(hat, res)
+      expect(res).to be(hat)
 
       res = hat.trim!(10)
-      assert_same(hat, res)
+      expect(res).to be(hat)
     end.not_to raise_error
     expect { hat.trim!(10, 10) }.to raise_error(ArgumentError)
   end
